@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contracts List</title>
+    <link rel="stylesheet" type="text/css" href="/contractsList.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/contracts" target="_self">Back to Contracts</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <h1>Contracts List</h1>
+    <table class="table table-dark">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Start Date</th>
+            <th>Duration</th>
+            <th>Details</th>
+            <th>User ID</th>
+            <th>Property ID</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="contract : ${contract}">
+            <td th:text="${contract.id}"></td>
+            <td th:text="${contract.startDate}"></td>
+            <td th:text="${contract.duration}"></td>
+            <td th:text="${contract.details}"></td>
+            <td th:text="${contract.user_id}"></td>
+            <td th:text="${contract.property_id}"></td>
+            <td>
+                <form th:action="@{/contracts/deleteContract}" method="post">
+                    <input type="hidden" name="id" th:value="${contract.id}" />
+                    <button type="submit" class="btn btn-custom-delete">DELETE</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

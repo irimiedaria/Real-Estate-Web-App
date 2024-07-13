@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+        <html lang="en" xmlns:th="http://www.thymeleaf.org">
+        <head>
+        <meta charset="UTF-8">
+        <title>Search Property</title>
+    <link rel="stylesheet" type="text/css" href="/searchPropertyCustomer.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Customer Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/customer/properties" target="_self">Back to Properties</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1>Search Property</h1>
+    <form action="/properties/searchPropertyCustomer" method="GET">
+        <div class="form-group">
+            <label for="propertyId">Enter Property ID:</label>
+            <input type="text" class="form-control" id="propertyId" name="id">
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-custom-search">Search</button>
+    </form>
+
+    <div th:if="${error}">
+        <div class="alert alert-danger mt-3" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+    </div>
+
+    <div th:if="${searched_property}">
+        <table class="table table-hover table-dark mt-5">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Location</th>
+                <th scope="col">Rooms Number</th>
+                <th scope="col">Initial Price</th>
+                <th scope="col">Price After Offer</th>
+                <th scope="col">Is Property Rented</th>
+                <th scope="col">Is Offer Applied</th>
+                <th scope="col">Property Type</th>
+                <th scope="col">Property Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${searched_property.id}"></td>
+                <td th:text="${searched_property.location}"></td>
+                <td th:text="${searched_property.roomsNumber}"></td>
+                <td th:text="${searched_property.initialPrice}"></td>
+                <td th:text="${searched_property.priceAfterOffer}"></td>
+                <td th:text="${searched_property.isRented}"></td>
+                <td th:text="${searched_property.isOfferApplied}"></td>
+                <td th:text="${searched_property.propertyType}"></td>
+                <td th:text="${searched_property.propertyStatus}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

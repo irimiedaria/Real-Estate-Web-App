@@ -1,0 +1,27 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url("./images/welcome.png");
+    background-size: cover;
+    color: #4e342e;
+}
+
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #343a40;
+    color: white;
+}
+
+.center-text h1{
+    text-align: center;
+    margin-top: 230px;
+    font-size: 5rem;
+    color: #795548;
+}

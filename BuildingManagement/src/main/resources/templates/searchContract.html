@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+    <meta charset="UTF-8">
+    <title>Search Contract</title>
+  <link rel="stylesheet" type="text/css" href="/searchContract.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Admin Panel</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/contracts" target="_self">Back to Contracts</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h1>Search Contract</h1>
+  <form action="/contracts/searchContract" method="GET">
+    <div class="form-group">
+      <label for="contractId">Enter Contract ID:</label>
+      <input type="text" class="form-control" id="contractId" name="id">
+    </div>
+    <button type="submit" class="btn btn-lg btn-block btn-custom-search">Search</button>
+  </form>
+
+  <div th:if="${error}">
+    <div class="alert alert-danger mt-3" role="alert">
+      <p th:text="${error}"></p>
+    </div>
+  </div>
+
+  <div th:if="${searched_contract}">
+    <table class="table table-hover table-dark mt-5">
+      <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Details</th>
+        <th scope="col">User ID</th>
+        <th scope="col">Property ID</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td th:text="${searched_contract.id}"></td>
+        <td th:text="${searched_contract.startDate}"></td>
+        <td th:text="${searched_contract.duration}"></td>
+        <td th:text="${searched_contract.details}"></td>
+        <td th:text="${searched_contract.user_id}"></td>
+        <td th:text="${searched_contract.property_id}"></td>
+      </tr>
+      </tbody>
+    </table>
+    <form id="downloadForm" action="/contracts/downloadFile" method="POST">
+      <input type="hidden" id="contractIdInput" name="contractId" th:value="${searched_contract.id}">
+      <select id="fileType" name="fileType" class="form-control mb-3">
+        <option value="pdf">PDF</option>
+        <option value="txt">TXT</option>
+        <option value="csv">CSV</option>
+      </select>
+      <button type="submit" class="btn btn-custom-download" id="downloadButton">Download</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.getElementById('downloadForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    var selectedFileType = document.getElementById('fileType').value;
+    var contractId = document.getElementById('contractIdInput').value;
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/contracts/downloadFile', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.responseType = 'blob';
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        var blob = xhr.response;
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'contract_' + contractId + '.' + selectedFileType;
+        link.click();
+      }
+    };
+
+    xhr.send('contractId=' + encodeURIComponent(contractId) + '&fileType=' + encodeURIComponent(selectedFileType));
+  });
+
+</script>
+
+</body>
+</html>

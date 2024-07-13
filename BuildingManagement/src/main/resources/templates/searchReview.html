@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Review</title>
+    <link rel="stylesheet" type="text/css" href="/searchReview.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/reviews" target="_self">Back to Reviews</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h1>Search User</h1>
+    <form action="/reviews/searchReview" method="GET">
+        <div class="form-group">
+            <label for="reviewId">Enter Review ID:</label>
+            <input type="text" class="form-control" id="reviewId" name="id">
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-custom-search">Search</button>
+    </form>
+
+    <div th:if="${error}">
+        <div class="alert alert-danger mt-3" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+    </div>
+
+    <div th:if="${searched_review}">
+        <table class="table table-hover table-dark mt-5">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Message</th>
+                <th scope="col">Date</th>
+                <th scope="col">User ID</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${searched_review.id}"></td>
+                <td th:text="${searched_review.message}"></td>
+                <td th:text="${searched_review.date}"></td>
+                <td th:text="${searched_review.user_id}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

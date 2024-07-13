@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Offer</title>
+  <link rel="stylesheet" type="text/css" href="/updateOffer.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Admin Panel</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin/offers" target="_self">Back to Offers</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h2 class="text-center">Update Offer</h2>
+
+  <!-- Search Contract Form -->
+  <form action="/offers/updateOffer" method="GET">
+    <div class="form-group">
+      <label for="offerId">Enter Offer ID:</label>
+      <input type="text" class="form-control" id="offerId" name="id">
+    </div>
+    <button type="submit" class="btn btn-lg btn-block btn-custom-search-update">Search</button>
+  </form>
+
+  <div th:if="${error}">
+    <div class="alert alert-danger mt-3" role="alert">
+      <p th:text="${error}"></p>
+    </div>
+  </div>
+
+  <!-- Update Contract Form -->
+  <form action="/offers/updateOffer" method="post" class="mt-4" th:if="${updated_offer != null}">
+    <input type="hidden" id="id" name="id" th:value="${updated_offer.id}">
+    <input type="hidden" id="property_id" name="property_id" th:value="${updated_offer.property_id}">
+    <div class="form-group">
+      <label for="offerProcent">Offer Procent</label>
+      <input type="text" class="form-control" id="offerProcent" name="offerProcent" th:value="${updated_offer.offerProcent}" required>
+    </div>
+
+    <div th:if="${success_message}">
+      <div class="alert alert-success mt-3" role="alert">
+        <p th:text="${success_message}"></p>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-lg btn-block btn-custom-update-offer">Update</button>
+  </form>
+</div>
+</body>
+</html>

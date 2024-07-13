@@ -1,0 +1,51 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url("./images/home.png");
+    background-size: cover;
+    color: #4e342e;
+}
+
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #343a40;
+    color: white;
+}
+
+.btn-custom-get-offers {
+    margin-top: 8rem;
+    background-color: #D2B48C;
+    border-color: #D2B48C;
+    color: white;
+}
+
+.btn-custom-get-one-offer {
+    margin-top: 8rem;
+    background-color: #8d6e63;
+    border-color: #8d6e63;
+    color: white;
+}
+
+.btn-custom-insert-offer {
+    margin-top: 8rem;
+    background-color: #795548;
+    border-color: #795548;
+    color: white;
+}
+
+.btn-custom-update-offer {
+    margin-top: 8rem;
+    background-color: #4e342e;
+    border-color: #4e342e;
+    color: white;
+}
+
+
+

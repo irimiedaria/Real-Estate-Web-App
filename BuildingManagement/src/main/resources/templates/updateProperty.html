@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Property</title>
+    <link rel="stylesheet" type="text/css" href="/updateProperty.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/properties" target="_self">Back to Properties</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="text-center">Update Property</h2>
+
+    <!-- Search Property Form -->
+    <form action="/properties/updateProperty" method="GET">
+        <div class="form-group">
+            <label for="propertyId">Enter Property ID:</label>
+            <input type="text" class="form-control" id="propertyId" name="id">
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-custom-search-update">Search</button>
+    </form>
+
+    <div th:if="${error}">
+        <div class="alert alert-danger mt-3" role="alert">
+            <p th:text="${error}"></p>
+        </div>
+    </div>
+
+    <!-- Update Property Form (conditionally displayed based on search result) -->
+    <form action="/properties/updateProperty" method="post" class="mt-4" th:if="${updated_property != null}" onsubmit="return validateForm()">
+        <input type="hidden" id="id" name="id" th:value="${updated_property.id}">
+        <div class="form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" th:value="${updated_property.location}" required>
+        </div>
+        <div class="form-group">
+            <label for="latitude">Latitude</label>
+            <input type="text" class="form-control" id="latitude" name="latitude" th:value="${updated_property.latitude}" required pattern="-?\d+(\.\d+)?">
+        </div>
+        <div class="form-group">
+            <label for="longitude">Longitude</label>
+            <input type="text" class="form-control" id="longitude" name="longitude" th:value="${updated_property.longitude}" required pattern="-?\d+(\.\d+)?">
+        </div>
+        <div class="form-group">
+            <label for="roomsNumber">Rooms Number</label>
+            <input type="text" class="form-control" id="roomsNumber" name="roomsNumber" th:value="${updated_property.roomsNumber}" required pattern="\d+">
+        </div>
+        <div class="form-group">
+            <label for="initialPrice">Initial Price</label>
+            <input type="text" class="form-control" id="initialPrice" name="initialPrice" th:value="${updated_property.initialPrice}" required pattern="\d+(\.\d+)?" title="Invalid input. Please enter a numeric value.">
+        </div>
+
+        <div class="form-group">
+            <label for="propertyType">Property Type</label>
+            <input type="text" class="form-control" id="propertyType" name="propertyType" th:value="${updated_property.propertyType}" required>
+        </div>
+        <div class="form-group">
+            <label for="propertyStatus">Property Status</label>
+            <input type="text" class="form-control" id="propertyStatus" name="propertyStatus" th:value="${updated_property.propertyStatus}" required>
+        </div>
+        <div class="form-group">
+            <label for="imageUrl">Image URL</label>
+            <input type="text" class="form-control" id="imageUrl" name="imageUrl" th:value="${updated_property.imageUrl}">
+        </div>
+
+        <div th:if="${success_message}">
+            <div class="alert alert-success mt-3" role="alert">
+                <p th:text="${success_message}"></p>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-block btn-custom-update-property">Update</button>
+    </form>
+</div>
+
+</body>
+</html>

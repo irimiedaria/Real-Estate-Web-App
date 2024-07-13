@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Review</title>
+    <link rel="stylesheet" type="text/css" href="/updateReviewCustomer.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Customer Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/customer/reviews" target="_self">Back to Reviews</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <h2 class="text-center">Update Review</h2>
+
+    <div th:if="${error}" class="alert alert-danger mt-3" role="alert">
+        <p th:text="${error}"></p>
+    </div>
+
+    <!-- Search Review Form -->
+    <form action="/reviews/updateReviewCustomer" method="GET">
+        <div class="form-group">
+            <label for="reviewId">Enter Review ID:</label>
+            <input type="text" class="form-control" id="reviewId" name="id">
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-custom-search-update">Search</button>
+    </form>
+
+    <!-- Update Review Form (conditionally displayed based on search result) -->
+    <form id="update_review_form" action="/reviews/updateReviewCustomer" method="post" class="mt-4" th:if="${updated_review != null}">
+        <input type="hidden" id="id" name="id" th:value="${updated_review.id}">
+        <div class="form-group">
+            <label for="date">Date (YYYY-MM-DDTHH:MM)</label>
+            <input type="text" class="form-control" id="date" name="date" th:value="${updated_review.date}" placeholder="YYYY-MM-DDTHH:MM" required>
+            <div id="date_error" class="error-message" style="color: red;"></div>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <input type="text" class="form-control" id="message" name="message" th:value="${updated_review.message}" required>
+        </div>
+
+        <button type="button" onclick="updateReview()" class="btn btn-lg btn-block btn-custom-update-review">Update</button>
+    </form>
+
+
+    <div th:if="${success_message}">
+        <div class="alert alert-success mt-3" role="alert">
+            <p th:text="${success_message}"></p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function updateReview() {
+        var date = document.getElementById('date').value;
+        if (!isValidDate(date)) {
+            document.getElementById('date_error').innerText = "Date must be in the format 'YYYY-MM-DDTHH:MM'.";
+            return;
+        }
+
+        document.getElementById('update_review_form').submit();
+    }
+
+    function isValidDate(dateString) {
+        var regEx = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+        return dateString.match(regEx) != null;
+    }
+</script>
+
+</body>
+</html>

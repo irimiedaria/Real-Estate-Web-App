@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Properties List</title>
+    <link rel="stylesheet" type="text/css" href="/propertiesList.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/properties" target="_self">Back to Properties</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Side Menu -->
+<div class="side-menu">
+    <h4>Filter Options</h4>
+    <!-- Search by location input field -->
+    <input type="text" id="locationInput" onkeyup="filterByLocation()" placeholder="Search by location...">
+    <div class="form-group">
+        <label for="propertyTypeFilter">Filter by Category:</label>
+        <select class="form-control" id="propertyTypeFilter">
+            <option value="ALL">All</option>
+            <option value="APARTMENT">Apartment</option>
+            <option value="HOUSE">House</option>
+            <option value="COMMERCIAL">Commercial</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="sortPriceFilter">Sort by Price:</label>
+        <select class="form-control" id="sortPriceFilter">
+            <option value="NONE">None</option>
+            <option value="LOW_TO_HIGH">Lower First</option>
+            <option value="HIGH_TO_LOW">Higher First</option>
+        </select>
+    </div>
+    <button class="btn btn-custom-filter btn-block" onclick="applyFilter()">Apply Filter</button>
+</div>
+
+<div class="container mt-4">
+    <h1>Properties List</h1>
+    <div class="row" id="propertyList">
+        <!-- Display properties -->
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var properties = /*[[${property}]]*/ [];
+    var propertyList = document.getElementById("propertyList");
+
+    for (var i = 0; i < properties.length; i++) {
+        var property = properties[i];
+        var cardHtml = `<div class="col-md-4 property-card" data-property-id="${property.id}" data-property-type="${property.propertyType}" data-property-price="${property.priceAfterOffer}">
+                            <div class="card mb-4">
+                                <img class="card-img-top" src="${property.imageUrl}" alt="Property Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">${property.location}</h5>
+                                    <p class="card-text">Property ID: <span>${property.id}</span></p>
+                                    <p class="card-text">Rooms Number: <span>${property.roomsNumber}</span></p>
+                                    <p class="card-text">Initial Price: <span>${property.initialPrice}</span></p>
+                                    <p class="card-text">Price After Offer: <span>${property.priceAfterOffer}</span></p>
+                                    <p class="card-text">Is The Property Rented: <span>${property.isRented}</span></p>
+                                    <p class="card-text">Is Offer Applied: <span>${property.isOfferApplied}</span></p>
+                                    <p class="card-text">Property Type: <span>${property.propertyType}</span></p>
+                                    <p class="card-text">Property Status: <span>${property.propertyStatus}</span></p>
+                                    <form action="/properties/deleteProperty" method="post">
+                                         <input type="hidden" name="id" value="${property.id}">
+                                          <button class="btn btn-custom-delete" type="submit">DELETE</button>
+                                    </form>
+                                    <button class="btn btn-custom-map ml-2" style="margin-top: 10px;" onclick="redirectToGoogleMaps('${property.latitude}', '${property.longitude}')">SEE ON MAP</button>
+                                </div>
+                            </div>
+                        </div>`;
+        propertyList.insertAdjacentHTML("beforeend", cardHtml);
+    }
+    /*]]>*/
+</script>
+
+<script>
+    function applyFilter() {
+        var selectedType = document.getElementById("propertyTypeFilter").value;
+        var selectedSort = document.getElementById("sortPriceFilter").value;
+        var properties = document.getElementsByClassName("property-card");
+
+        for (var i = 0; i < properties.length; i++) {
+            var propertyType = properties[i].getAttribute("data-property-type");
+            if (selectedType === "ALL" || propertyType === selectedType) {
+                properties[i].style.display = "block";
+            } else {
+                properties[i].style.display = "none";
+            }
+        }
+
+        if (selectedSort !== "NONE") {
+            var propertyArray = Array.from(properties).filter(function (property) {
+                return property.style.display !== "none";
+            });
+
+            propertyArray.sort(function (a, b) {
+                var priceA = parseFloat(a.getAttribute("data-property-price"));
+                var priceB = parseFloat(b.getAttribute("data-property-price"));
+
+                if (selectedSort === "LOW_TO_HIGH") {
+                    return priceA - priceB;
+                } else if (selectedSort === "HIGH_TO_LOW") {
+                    return priceB - priceA;
+                }
+            });
+
+            for (var i = 0; i < propertyArray.length; i++) {
+                propertyList.appendChild(propertyArray[i]);
+            }
+        }
+    }
+
+    function redirectToGoogleMaps(latitude, longitude) {
+        var mapUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+        window.open(mapUrl, "_blank");
+    }
+
+    function filterByLocation() {
+        var input, filter, cards, card, location, i, txtValue;
+        input = document.getElementById("locationInput");
+        filter = input.value.toUpperCase();
+        cards = document.getElementsByClassName("property-card");
+        for (i = 0; i < cards.length; i++) {
+            card = cards[i];
+            location = card.getElementsByTagName("h5")[0];
+            txtValue = location.textContent || location.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        }
+    }
+
+</script>
+
+</body>
+</html>

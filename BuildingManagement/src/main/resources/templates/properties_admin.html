@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Properties page on admin</title>
+    <link rel="stylesheet" type="text/css" href="/properties_admin.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Admin Panel</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/admin" target="_self">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/users" target="_self">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/properties" target="_self">Properties</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/contracts" target="_self">Contracts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/offers" target="_self">Offers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/reviews" target="_self">Reviews</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/solicitations/solicitationsAdmin" target="_self">Requests</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/" target="_self">Sign out</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Button Section -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <a href="/admin/properties/propertiesList" class="btn btn-lg btn-block btn-custom-get-properties">See All Properties</a>
+            <a href="/admin/properties/searchProperty" class="btn btn-lg btn-block btn-custom-get-one-property">Look for One Property</a>
+            <a href="/admin/properties/insertProperty" class="btn btn-lg btn-block btn-custom-insert-property">Insert New Property</a>
+            <a href="/admin/properties/updateProperty" class="btn btn-lg btn-block btn-custom-update-property">Update an Existing Property</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

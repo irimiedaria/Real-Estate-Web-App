@@ -1,0 +1,12 @@
+com.projectps.buildingmanagement
+com.projectps.buildingmanagement.config
+com.projectps.buildingmanagement.controllers
+com.projectps.buildingmanagement.controllers.pages
+com.projectps.buildingmanagement.dtos
+com.projectps.buildingmanagement.dtos.builders
+com.projectps.buildingmanagement.entities
+com.projectps.buildingmanagement.entities.enums
+com.projectps.buildingmanagement.exceptions
+com.projectps.buildingmanagement.files
+com.projectps.buildingmanagement.repositories
+com.projectps.buildingmanagement.services
